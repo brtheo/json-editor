@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/src/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + Lit App</title>
+    <script type="module" src="/src/json-editor.ts"></script>
+  </head>
+  <body>
+    <json-editor></json-editor>
+    <script defer>
+      const sample = {
+          "glossary": {
+           "title": "example glossary",
+          "GlossDiv": {
+                  "title": "S",
+            "GlossList": {
+                      "GlossEntry": {
+                          "ID": "SGML",
+                "SortAs": "SGML",
+                "GlossTerm": "Standard Generalized Markup Language",
+                "Acronym": "SGML",
+                "Abbrev": "ISO 8879:1986",
+                "GlossDef": {
+                              "para": "A meta-markup language, used to create markup languages such as DocBook.",
+                  "GlossSeeAlso": ["GML", "XML"]
+                          },
+                "GlossSee": "markup"
+                      }
+                  }
+              }
+          },
+          "oui": 2,
+          "non" : true
+      }
+      document.querySelector('json-editor')
+      .setAttribute(
+        'data',
+        JSON.stringify(sample)
+      )
+    </script>
+  </body>
+</html>
