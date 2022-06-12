@@ -4,50 +4,42 @@ export const styles = css`
   :host {
     font-family: 'Cascadia Code';
     display: block;
-    width: clamp(500px, 75%, 600px);
+    width: 100%;
     min-height: 900px;
-    border-radius: 5px;
-    border: 2px solid #325cff;
-  }
-  :host h4 {
-    margin-block: .1rem;
   }
   :host input {
     margin: 0;
+    font-family: 'Cascadia Code';
+    padding: 0;
   }
-  details {
-    padding: 5px;
-    margin: 5px;
-  }
-  details > details {
-    padding-left: 15px;
-    border-radius: 5px;
-    border: solid 2px;
-  }
-  details > summary::before {
-    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id='mdi-chevron-down' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z'/%3E%3C/svg%3E");
-    transform: rotate(-90deg);
-    display: block;
-    width: 24px;
-    height: 24px;
-    transition: transform .2s;
-  }
-  details[open] > summary::before {
-    transform: rotate(0deg);
-    transition: transform .2s;
-  }
-  summary {
+  .treeContainer {
     display: flex;
   }
-  summary ~ .inputContainer {
-    padding-left: 38px;
+  .tree {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+  bkj-dropdown {
+    width: -webkit-fill-available;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 2px;
+    border: 1px solid;
+    border-color: #282b31bb;
+    background-color: #44d19670;
+  }
+  bkj-dropdown > bkj-dropdown {
+    padding-left: 15px;
+  }
+  .inputContainer {
+    padding-left: 36px;
     padding-top: 4px;
   }
-  details > summary::-webkit-details-marker {
-    display: none;
-  }
-  input {
-    font-family: 'Cascadia Code';
+  input[type=text], input[type=number] {
+    width: 10rem;
+    background-color: unset;
+    border: unset;
   }
   textarea {
     resize: vertical;

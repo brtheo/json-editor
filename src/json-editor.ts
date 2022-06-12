@@ -1,9 +1,20 @@
 import { html, LitElement, TemplateResult} from 'lit'
-import { countKeysOf, randomColor} from './utils'
+import { countKeysOf, randomColor, shadesGenerator} from './utils'
 import { customElement, property } from 'lit/decorators.js'
 import { styleMap } from 'lit/directives/style-map.js';
 import { styles } from './styles'
 import { LENGTH_20 } from './const'
+import  './bkj-dropdown';
+
+/**
+ * TODO:
+ * 1. save the data in memory/state
+ *  1.1 make tree based on open => get corresponding object in memory/state
+ * 2. make own accordion component
+ *  2.2 animate opening
+ * 3. make toggable edit for fields and keys (only num and text ?)
+ * 4. better style
+ */
 
 @customElement('json-editor')
 export class JsonEditor extends LitElement {
@@ -12,28 +23,38 @@ export class JsonEditor extends LitElement {
   @property({ type: Object, attribute: true})
   private data: IData = {}
 
-  private makeTree(data: IData, depth: number=2): TemplateResult {
+  private makeTree(data: IData): TemplateResult {
+    const iterator = shadesGenerator('#44d196',10,20)
     return html`
-      ${Object.keys(data).map((key,idx) => {
-        const uniqueColorStyle = {backgroundColor: randomColor(depth, idx)}
+      ${Object.keys(data).map((key) => {
+        const borderColorStyle = {
+          backgroundColor: (iterator.next().value as string)
+        }
         return html`
-          <details data-depth=${depth} data-child=${idx+2} style=${styleMap(uniqueColorStyle)}>
+          <bkj-dropdown  
+            style=${styleMap(borderColorStyle)}
+            ?isOpen=${typeof data[key] !== 'object'}>
             ${ typeof data[key] === 'object'
               ? html`
-                  <summary >
-                    <h4><input type="text" value=${key} /> object of ${countKeysOf(data[key])} keys </h4>
-                  </summary>
-                  ${this.makeTree(data[key],depth++)}
+                  <span slot="title">
+                    [${countKeysOf(data[key])}] <i>${typeof data[key]}</i>
+                  </span> 
+                  <div class="treeContainer" slot="content">
+                    <input type="text" value=${key} />
+                    <div class="tree">${this.makeTree(data[key])}</div>
+                  </div>
                 `
               : html`
-                  <summary >
-                    <h4><input type="text" value=${key} /></h4>
-                  </summary>
-                  <div class="inputContainer">${this.makeValue(data[key])}</div>
+                  <span slot="title">[1] <i>${typeof data[key]} </i>
+                    
+                  </span>
+                  <div class="inputContainer" slot="content">
+                    <input input type="text" value=${key} />
+                    ${this.makeValue(data[key])}
+                  </div>
                 `
-              
             }
-          </details>
+          </bkj-dropdown>
         `}
       )}
     `
@@ -64,14 +85,14 @@ export class JsonEditor extends LitElement {
 
   protected render(): TemplateResult{
     return html`
-     <details >
-      <summary>
-        <h4>
-          Root object of ${countKeysOf(this.data)} keys
-        </h4>
-      </summary>
-       ${this.makeTree(this.data)}
-     </details>
+     <bkj-dropdown ?isOpen=${true} >
+        <span slot="title">
+          [${countKeysOf(this.data)}] <i>${typeof this.data}</i>
+        </span>
+       <div slot="content">
+        ${this.makeTree(this.data)}
+       </div>
+     </bkj-dropdown>
     `
   }
 }
