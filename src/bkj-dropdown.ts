@@ -1,5 +1,5 @@
 import { html, css, LitElement, TemplateResult, CSSResult} from 'lit'
-import { customElement, property, query, queryAsync } from 'lit/decorators.js'
+import { customElement, property, query } from 'lit/decorators.js'
 
 @customElement('bkj-dropdown')
 export class BkjDropdown extends LitElement {
@@ -108,7 +108,8 @@ export class BkjDropdown extends LitElement {
     this.isExpanding = false
     this.$details.style.height = this.$details.style.overflow = ''
   }
-  
+
+
   protected render(): TemplateResult {
     return html`
       <details  @toggle=${this.handleToggle} ?open=${this.isOpen}>
@@ -126,7 +127,6 @@ export class BkjDropdown extends LitElement {
             `
             : html``
         }
-        
       </details>
     `
   }

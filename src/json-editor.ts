@@ -32,6 +32,7 @@ export class JsonEditor extends LitElement {
         }
         return html`
           <bkj-dropdown  
+            color='blue'
             style=${styleMap(borderColorStyle)}
             ?isOpen=${typeof data[key] !== 'object'}>
             ${ typeof data[key] === 'object'
@@ -83,9 +84,24 @@ export class JsonEditor extends LitElement {
     }
   }
 
+  connectedCallback(): void {
+    const makeBranch = (d: DataValue): string => 
+      Object.keys(d).map((key) => 
+        typeof d[key] === 'object' 
+          ? `<${key}>
+            ${makeBranch(d[key])}
+          </${key}>`
+          : `<${key}>
+          ${d[key]}
+        </${key}>`
+      ).join('')
+
+    console.log(makeBranch(this.data))
+  }
+
   protected render(): TemplateResult{
     return html`
-     <bkj-dropdown ?isOpen=${true} >
+     <bkj-dropdown ?isOpen=${true}>
         <span slot="title">
           [${countKeysOf(this.data)}] <i>${typeof this.data}</i>
         </span>
