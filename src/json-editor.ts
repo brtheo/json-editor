@@ -84,20 +84,20 @@ export class JsonEditor extends LitElement {
     }
   }
 
-  connectedCallback(): void {
-    const makeBranch = (d: DataValue): string => 
-      Object.keys(d).map((key) => 
-        typeof d[key] === 'object' 
-          ? `<${key}>
-            ${makeBranch(d[key])}
-          </${key}>`
-          : `<${key}>
-          ${d[key]}
-        </${key}>`
-      ).join('')
+  // connectedCallback(): void {
+  //   const makeBranch = (d: DataValue): string => 
+  //     Object.keys(d).map((key) => 
+  //       typeof d[key] === 'object' 
+  //         ? `<${key}>
+  //           ${makeBranch(d[key])}
+  //         </${key}>`
+  //         : `<${key}>
+  //         ${d[key]}
+  //       </${key}>`
+  //     ).join('')
 
-    console.log(makeBranch(this.data))
-  }
+  //   console.log(makeBranch(this.data))
+  // }
 
   protected render(): TemplateResult{
     return html`
